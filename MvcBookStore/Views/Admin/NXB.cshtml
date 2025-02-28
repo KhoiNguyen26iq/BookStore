@@ -1,0 +1,309 @@
+﻿@using MvcBookStore.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<MvcBookStore.Models.NHAXUATBAN>
+@{
+    ViewBag.Title = "Nhà Xuất Bản";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #059669;
+            --danger: #dc2626;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-title::before {
+            content: "🏢";
+            font-size: 2rem;
+        }
+
+        .add-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .add-button::before {
+            content: "+";
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .add-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .publisher-table {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .publisher-table th {
+            background-color: var(--gray-50);
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            border-bottom: 2px solid var(--gray-200);
+            white-space: nowrap;
+        }
+
+        .publisher-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            transition: background-color 0.2s;
+        }
+
+        .publisher-table tr:hover td {
+            background-color: var(--gray-50);
+        }
+
+        .publisher-id {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .publisher-name {
+            font-weight: 500;
+            color: var(--gray-800);
+        }
+
+        .publisher-address {
+            color: var(--gray-600);
+            max-width: 300px;
+        }
+
+        .publisher-phone {
+            font-family: monospace;
+            color: var(--gray-700);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            transition: all 0.2s;
+            color: white;
+        }
+
+        .action-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .edit-button {
+            background-color: var(--success);
+        }
+
+        .edit-button:hover {
+            background-color: #047857;
+        }
+
+        .delete-button {
+            background-color: var(--danger);
+        }
+
+        .delete-button:hover {
+            background-color: #b91c1c;
+        }
+
+        .Trang {
+            text-align: center;
+            margin-top: 2rem;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .Trang li {
+            display: inline-block;
+            margin: 0 0.25rem;
+        }
+
+        .Trang a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.5rem;
+            height: 2.5rem;
+            padding: 0 0.75rem;
+            border-radius: 0.375rem;
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .Trang a:hover {
+            background-color: var(--gray-200);
+        }
+
+        .Trang a:active {
+            background-color: var(--success);
+            color: white;
+        }
+
+        @@media (max-width: 1024px) {
+            .publisher-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            .page-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .publisher-address {
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">@ViewBag.Title</h2>
+            @Html.ActionLink("Thêm mới nhà xuất bản", "ThemmoiNXB", null, new { @class = "add-button" })
+        </div>
+
+        <table class="publisher-table">
+            <thead>
+                <tr>
+                    <th>Mã số NXB</th>
+                    <th>Tên nhà xuất bản</th>
+                    <th>Địa chỉ</th>
+                    <th>Số điện thoại</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <span class="publisher-id">@Html.DisplayFor(modelItem => item.MaNXB)</span>
+                        </td>
+                        <td>
+                            <span class="publisher-name">@Html.DisplayFor(modelItem => item.TenNXB)</span>
+                        </td>
+                        <td>
+                            <div class="publisher-address">@Html.DisplayFor(modelItem => item.Diachi)</div>
+                        </td>
+                        <td>
+                            <span class="publisher-phone">@Html.DisplayFor(modelItem => item.DienThoai)</span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                @Html.ActionLink("✏️ Sửa", "Suasach",
+                                    new { id = item.MaNXB },
+                                    new { @class = "action-button edit-button" })
+                                @Html.ActionLink("🗑️ Xóa", "Xoasach",
+                                    new { id = item.MaNXB },
+                                    new { @class = "action-button delete-button" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="Trang">
+            <span>Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount</span>
+            @Html.PagedListPager(Model, page => Url.Action("Loaisach", new { page = page }))
+        </div>
+    </div>
+</body>
+</html>

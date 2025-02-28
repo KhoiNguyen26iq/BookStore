@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Đăng Xuất";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<h4>Đã đăng xuất! <br/>Xin cảm ơn @Session["TDN"].ToString() đã truy cập! </h4>
+<br />
+<h5 class="text-primary">
+    @Html.ActionLink("Về Trang Chủ", "Index", "BookStore")
+</h5>
+

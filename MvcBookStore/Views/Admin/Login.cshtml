@@ -1,0 +1,49 @@
+﻿
+@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="~/images/bookicon.png">
+    <title>Đăng Nhập Quản Lý</title>
+    <meta charset="UTF-8" />
+    <meta name="Designer" content="Book Shop">
+    <meta name="Author" content="Book Shop - 065 4089">
+    <link rel="stylesheet" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Admin.css">
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <div>
+            <br />
+            <form>
+                <h3 class="text-center">Đăng nhập</h3>
+                <div class="container">
+                    <label for="uname"><b>Tên Đăng Nhập:</b></label>
+                    <br /><span class="text-danger">@ViewData["Loi1"]</span>
+                    <input type="text" name="username" placeholder="Tên đăng nhập">
+                    <label for="psw"><b>Mật Khẩu</b></label>
+                    <br /><span class="text-danger">@ViewData["Loi2"]</span>
+                    <input type="password" name="password" placeholder="************">
+                    <span class="text-center">@ViewBag.Thongbao</span>
+                    <button type="submit">Đăng Nhập</button>
+                    <label>
+                        <input type="checkbox" name="remember"> Lưu phiên đăng nhập
+                    </label>
+                </div>
+                <div class="container" style="background-color:#f1f1f1">
+                    <span class="text-left"><a href="@Url.Action("Index","BookStore")">Trở lại</a></span>
+                    <span class="float-right"><a href="#">Quên mật khẩu?</a></span>
+                </div>
+            </form>
+        </div>
+    }
+    <footer class="text-center">
+        <a href="https://bookshop.org/">Book Shop</a> | <a href="https://www.facebook.com/bookshop.org/?locale=vi_VN">Facebook</a>
+    </footer>
+</body>
+</html>

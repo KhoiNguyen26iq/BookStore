@@ -1,0 +1,328 @@
+﻿@using MvcBookStore.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<MvcBookStore.Models.DONDATHANG>
+@{
+    ViewBag.Title = "Quản lí đơn hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #eab308;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .page-title::before {
+            content: "📦";
+            font-size: 2rem;
+        }
+
+        .order-table {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order-table th {
+            background-color: var(--gray-50);
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--gray-700);
+            border-bottom: 2px solid var(--gray-200);
+            white-space: nowrap;
+        }
+
+        .order-table td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            transition: background-color 0.2s;
+        }
+
+        .order-table tr:hover td {
+            background-color: var(--gray-50);
+        }
+
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .status-badge.success {
+            background-color: #dcfce7;
+            color: var(--success);
+        }
+
+        .status-badge.pending {
+            background-color: #fef3c7;
+            color: var(--warning);
+        }
+
+        .status-badge::before {
+            content: "●";
+            font-size: 0.75rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            transition: all 0.2s;
+            color: white;
+        }
+
+        .action-button:hover {
+            transform: translateY(-1px);
+        }
+
+        .edit-button {
+            background-color: var(--primary);
+        }
+
+        .edit-button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .detail-button {
+            background-color: var(--success);
+        }
+
+        .detail-button:hover {
+            background-color: #047857;
+        }
+
+        .user-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .user-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .pagination {
+            margin-top: 2rem;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pagination span {
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        .Trang {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .Trang li {
+            display: inline-block;
+            margin: 0 0.25rem;
+        }
+
+        .Trang a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.5rem;
+            height: 2.5rem;
+            padding: 0 0.75rem;
+            border-radius: 0.375rem;
+            background-color: var(--gray-50);
+            color: var(--gray-700);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .Trang a:hover {
+            background-color: var(--gray-200);
+        }
+
+        .Trang a:active {
+            background-color: var(--success);
+            color: white;
+        }
+
+        @@media (max-width: 1024px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .order-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            .page-header {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">@ViewBag.Title</h2>
+        </div>
+
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Thanh toán</th>
+                    <th>Trạng thái đơn hàng</th>
+                    <th>Ngày đặt</th>
+                    <th>Ngày giao</th>
+                    <th>Tên người dùng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.MaDonHang)</td>
+                        <td class="text-center">
+                            @{
+                                if (item.Dathanhtoan == true)
+                                {
+                                    <span class="status-badge success">Đã thanh toán</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge pending">Chưa thanh toán</span>
+                                }
+                            }
+                        </td>
+                        <td class="text-center">
+                            @{
+                                if (item.Tinhtranggiaohang == true)
+                                {
+                                    <span class="status-badge success">Đã giao hàng</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge pending">Chưa giao hàng</span>
+                                }
+                            }
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Ngaydat)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Ngaygiao)</td>
+                        <td>
+                            @Html.ActionLink(item.KHACHHANG.Taikhoan, "Chitietnguoidung",
+                                new { id = item.MaKH }, new { @class = "user-link" })
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                @Html.ActionLink("✏️ Sửa", "Suadon",
+                                    new { id = item.MaDonHang },
+                                    new { @class = "action-button edit-button" })
+                                @Html.ActionLink("👁️ Chi tiết", "Chitietdonhang",
+                                    new { id = item.MaDonHang },
+                                    new { @class = "action-button detail-button" })
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="Trang">
+            <span>Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount</span>
+            @Html.PagedListPager(Model, page => Url.Action("DonHang", new { page = page }))
+        </div>
+    </div>
+</body>
+</html>

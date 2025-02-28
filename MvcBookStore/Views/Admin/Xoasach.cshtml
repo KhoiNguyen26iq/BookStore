@@ -1,0 +1,289 @@
+﻿@model MvcBookStore.Models.SACH
+
+@{
+    ViewBag.Title = "Xoasach";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #059669;
+            --danger: #dc2626;
+            --danger-dark: #b91c1c;
+            --warning: #fbbf24;
+            --warning-dark: #b45309;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+            .page-title::before {
+                content: "⚠️";
+                font-size: 2rem;
+            }
+
+        .warning-banner {
+            background-color: #fef2f2;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+        }
+
+            .warning-banner::before {
+                content: "⚠️";
+                font-size: 1.5rem;
+            }
+
+        .details-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1.5rem 2rem;
+            align-items: start;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            min-width: 150px;
+        }
+
+        .detail-value {
+            color: var(--gray-800);
+        }
+
+        .book-cover {
+            width: 200px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--success);
+            font-size: 1.25rem;
+        }
+
+        .stock {
+            font-weight: 500;
+            background-color: var(--gray-100);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            display: inline-block;
+        }
+
+        .description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+            .btn:hover {
+                transform: translateY(-1px);
+            }
+
+        .btn-delete {
+            background-color: var(--danger);
+            color: white;
+        }
+
+            .btn-delete:hover {
+                background-color: var(--danger-dark);
+            }
+
+        .btn-edit {
+            background-color: var(--success);
+            color: white;
+        }
+
+            .btn-edit:hover {
+                background-color: #047857;
+            }
+
+        .btn-back {
+            background-color: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+            .btn-back:hover {
+                background-color: var(--gray-200);
+            }
+
+        @@media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+
+            .page-header {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+
+            .details-container {
+                padding: 1rem;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .detail-label {
+                border-bottom: 1px solid var(--gray-200);
+                padding-bottom: 0.25rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">Xóa sách</h2>
+        </div>
+
+        <div class="warning-banner">
+            Không thể khôi phục sau khi xóa! Xác nhận xóa?
+        </div>
+
+        <div class="details-container">
+            <div class="details-grid">
+                <div class="detail-label">Tên sách</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Tensach)</div>
+
+                <div class="detail-label">Giá bán</div>
+                <div class="detail-value">
+                    <span class="price">@String.Format("{0:#,##0}", Model.Giaban) VNĐ</span>
+                </div>
+
+                <div class="detail-label">Mô tả</div>
+                <div class="detail-value">
+                    <div class="description">@Html.DisplayFor(model => model.Mota)</div>
+                </div>
+
+                <div class="detail-label">Ảnh bìa</div>
+                <div class="detail-value">
+                    <img src="@Url.Content("~/images/anhsp/" + Model.Anhbia)" class="book-cover" alt="Ảnh bìa sách" />
+                </div>
+
+                <div class="detail-label">Ngày cập nhật</div>
+                <div class="detail-value">@String.Format("{0:dd/MM/yyyy}", Model.Ngaycapnhat)</div>
+
+                <div class="detail-label">Số lượng tồn</div>
+                <div class="detail-value">
+                    <span class="stock">@Html.DisplayFor(model => model.Soluongton)</span>
+                </div>
+
+                <div class="detail-label">Loại sách</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.Loai.TenLoai)</div>
+
+                <div class="detail-label">Nhà xuất bản</div>
+                <div class="detail-value">@Html.DisplayFor(model => model.NHAXUATBAN.TenNXB)</div>
+            </div>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-delete">🗑️ Xác nhận xóa</button>
+                    @Html.ActionLink("✏️ Sửa", "Suasach", new { id = Model.Masach }, new { @class = "btn btn-edit" })
+                    @Html.ActionLink("← Quay lại", "Index", null, new { @class = "btn btn-back" })
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

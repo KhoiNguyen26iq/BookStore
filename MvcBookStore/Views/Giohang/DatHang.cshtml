@@ -1,0 +1,201 @@
+﻿@using MvcBookStore.Models
+@model List<Giohang>
+@{
+    ViewBag.Title = "Xác Nhận Đặt Hàng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<style>
+    .order-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .section-title {
+        color: #2c3e50;
+        text-align: center;
+        margin: 2rem 0;
+        font-size: 1.8rem;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: #3498db;
+        }
+
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+        .order-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .order-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+            color: #333;
+        }
+
+    .product-image {
+        width: 100px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .back-link {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+        display: block;
+        padding: 10px;
+    }
+
+        .back-link:hover {
+            color: #2980b9;
+        }
+
+    .customer-info {
+        background: #f8f9fa;
+    }
+
+        .customer-info td:first-child {
+            font-weight: 600;
+            width: 200px;
+            background: #eef2f7;
+        }
+
+    .date-input {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1rem;
+        width: 200px;
+    }
+
+    .submit-button {
+        background: #27ae60;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.3s;
+        margin: 1rem 0;
+    }
+
+        .submit-button:hover {
+            background: #219a52;
+        }
+
+    .price {
+        font-family: 'Roboto', sans-serif;
+        color: #e74c3c;
+    }
+
+    .quantity {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+</style>
+
+<div class="order-container">
+    <h2 class="section-title">Thông Tin Sản Phẩm</h2>
+
+    <table class="order-table">
+        <thead>
+            <tr>
+                <th>Tên Sách</th>
+                <th>Ảnh Bìa</th>
+                <th>Số Lượng</th>
+                <th>Đơn Giá</th>
+                <th>Thành Tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.sTensach</td>
+                    <td>
+                        <img class="product-image" src="~/images/anhsp/@item.sAnhbia" alt="@item.sTensach" />
+                    </td>
+                    @using (Html.BeginForm("CapnhatGiohang", "Giohang", new { @iMaSp = item.iMasach }))
+                    {
+                        <td class="quantity">@item.iSoluong</td>
+                        <td class="price">@String.Format("{0:#,##0}", item.dDonggia) đ</td>
+                        <td class="price">@String.Format("{0:#,##0}", item.dThanhtien) đ</td>
+                    }
+                </tr>
+            }
+            <tr>
+                <td colspan="5">
+                    @Html.ActionLink("Trở về Giỏ Hàng", "GioHang", "Giohang", null, new { @class = "back-link" })
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2 class="section-title">Thông Tin Đặt Hàng</h2>
+
+    @{
+        KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
+    }
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <table class="order-table customer-info">
+            <tr>
+                <td>Họ tên khách hàng:</td>
+                <td>@kh.HoTen</td>
+            </tr>
+            <tr>
+                <td>Địa chỉ:</td>
+                <td>@kh.DiachiKH</td>
+            </tr>
+            <tr>
+                <td>Điện thoại:</td>
+                <td>@kh.DienthoaiKH</td>
+            </tr>
+            <tr>
+                <td>Ngày đặt:</td>
+                <td>@DateTime.Now.ToShortDateString()</td>
+            </tr>
+            <tr>
+                <td>Ngày giao hàng:</td>
+                <td><input type="date" name="Ngaygiao" class="date-input" required /></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button type="submit" class="submit-button">Đồng ý đặt hàng</button>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

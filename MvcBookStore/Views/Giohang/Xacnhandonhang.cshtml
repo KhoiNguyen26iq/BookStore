@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Xác nhận đơn hàng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<style>
+    .success-container {
+        max-width: 800px;
+        margin: 4rem auto;
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        animation: slideUp 0.5s ease-out;
+    }
+
+    @@keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .success-icon {
+        color: #27ae60;
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        animation: scaleIn 0.5s ease-out;
+    }
+
+    @@keyframes scaleIn {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+
+    .success-title {
+        color: #2c3e50;
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+
+    .success-message {
+        color: #666;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .home-link {
+        display: inline-block;
+        padding: 12px 24px;
+        background: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .home-link:hover {
+        background: #2980b9;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+    }
+
+    .divider {
+        width: 60px;
+        height: 4px;
+        background: #27ae60;
+        margin: 2rem auto;
+        border-radius: 2px;
+    }
+</style>
+
+<div class="success-container">
+    <div class="success-icon">✓</div>
+    <h1 class="success-title">Đặt hàng thành công!</h1>
+    <div class="divider"></div>
+    <p class="success-message">
+        Đơn hàng của bạn đã được xác nhận thành công.
+        Chúng tôi sẽ gửi thông tin chi tiết về việc vận chuyển sớm nhất có thể.
+        Cảm ơn bạn đã tin tưởng và mua sắm cùng chúng tôi!
+    </p>
+    @Html.ActionLink("Quay về Trang Chủ", "Index", "BookStore", null, new { @class = "home-link" })
+</div>

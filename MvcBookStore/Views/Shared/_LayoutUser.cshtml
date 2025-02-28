@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name='copyright' content=''>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="~/images/bookicon.png">
+    <link rel="stylesheet" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/magnific-popup.min.css">
+    <link rel="stylesheet" href="~/Content/font-awesome.css">
+    <link rel="stylesheet" href="~/Content/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="~/Content/themify-icons.css">
+    <link rel="stylesheet" href="~/Content/niceselect.css">
+    <link rel="stylesheet" href="~/Content/animate.css">
+    <link rel="stylesheet" href="~/Content/flex-slider.min.css">
+    <link rel="stylesheet" href="~/Content/owl-carousel.css">
+    <link rel="stylesheet" href="~/Content/slicknav.min.css">
+    <link rel="stylesheet" href="~/Content/reset.css">
+    <link rel="stylesheet" href="~/Content/css.css">
+    <link rel="stylesheet" href="~/Content/responsive.css">
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- End Preloader -->
+    <!-- Header -->
+    <header class="header shop">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-12 col-12">
+                        <!-- Top Left -->
+                        <div class="top-left">
+                            <ul class="list-main">
+                                <li><i class="ti-headphone-alt"></i> +065 4089</li>
+                                <li><i class="ti-email"></i> bookshop@offical.com</li>
+                            </ul>
+                        </div>
+                        <!--/ End Top Left -->
+                    </div>
+                    <div class="col-lg-7 col-md-12 col-12">
+                        <!-- Top Right -->
+                        <div class="right-content">
+                            <ul class="list-main">
+                                <li><i class="ti-location-pin"></i>24/7 Sư Vạn Hạnh, Quận 10, Tp. Hồ Chí Minh</li>
+                                @if (Session["Taikhoan"] == null || Session["Taikhoan"].ToString() == "")
+                                {
+                                    <li><i class="ti-user"></i>Khách</li>
+                                    <li>
+                                        <i class="ti-pencil-alt"></i>
+                                        <a href="@Url.Action("Dangnhap","Nguoidung")">Đăng Nhập</a>
+                                    </li>
+                                    <li><i class="ti-power-off"></i><a href="@Url.Action("Dangky","Nguoidung")">Đăng Ký</a></li>
+                                }
+                                else
+                                {
+                                    <li><i class="ti-user"></i>@Session["TDN"].ToString()</li>
+                                    <li><i class="ti-power-off"></i><a href="@Url.Action("Thoat","BookStore")">Thoát</a></li>
+                                }
+
+                            </ul>
+                        </div>
+                        <!-- End Top Right -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Topbar -->
+        <div class="middle-inner">
+            <div class="container">
+                <div class="row">
+                    <!-- Logo and Search Container -->
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <!-- Logo -->
+                        <div class="logo" style="display: flex; align-items: flex-start; margin-top: 1px;">
+                            <a href="@Url.Action("Index","BookStore")" style="display: block;">
+                                <img src="~/images/bookshoplogo.png" alt="logo" style="max-height: 50px; width: auto;">
+                            </a>
+                        </div>
+
+                        <!-- Mobile Search - Only visible on mobile -->
+                        <div class="search-top d-lg-none">
+                            <div class="top-search"><a href="#0"><i class="ti-search"></i></a></div>
+                            <div class="search-top">
+                                <form class="search-form">
+                                    <input type="text" placeholder="Search here..." name="search">
+                                    <button value="search" type="submit"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="mobile-nav"></div>
+                    </div>
+                    <div class="col-lg-8 col-md-7 col-12">
+                        <div class="search-bar-top">
+                            <div class="search-bar">
+                                <select>
+                                    <option selected="selected">Danh Mục</option>
+                                    <option>Tác Giả</option>
+                                    <option>Tên Sách</option>
+                                    <option>Thể Loại</option>
+                                </select>
+                                <form>
+                                    <input name="search" placeholder="Nhập thông tin tìm kiếm....." type="search">
+                                    <button class="btnn"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-12">
+                        <div class="right-bar">
+                            <!-- Search Form -->
+                            <div class="sinlge-bar">
+                                <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="sinlge-bar">
+                                <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="sinlge-bar shopping">
+                                <a href="@Url.Action("Giohang","Giohang")" class="single-icon">
+                                    <i class="ti-bag"></i>@if (ViewBag.Tongsoluong != null)
+                                    {<span class="total-count">@ViewBag.Tongsoluong</span>}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header Inner -->
+        <div class="header-inner">
+            <div class="container">
+                <div class="cat-nav-head">
+                    <div class="row">
+                        <div class="col-lg-9 col-12">
+                            <div class="menu-area">
+                                <!-- Main Menu -->
+                                <nav class="navbar navbar-expand-lg">
+                                    <div class="navbar-collapse">
+                                        <div class="nav-inner">
+                                            <ul class="nav main-menu menu navbar-nav">
+                                                <li class="active"><a href="@Url.Action("Index","BookStore")">Trang Chủ</a></li>
+                                                <li>
+                                                    @Html.Action("Loai", "BookStore")
+                                                </li>
+                                                <li>
+                                                    @Html.Action("Nhaxuatban", "BookStore")
+                                                </li>
+                                                <li><a href="#">Top Bán Chạy<span class="new">New</span></a></li>
+                                                <li><a href="#">Sách Cũ</a></li>
+                                                <li>
+                                                    <a href="#">Sách Giảm Giá<i class="ti-angle-down"></i></a>
+                                                    <ul class="dropdown">
+                                                        <li><a href="blog-single-sidebar.html">Đang Giả Giá</a></li>
+                                                        <li><a href="blog-single-sidebar.html">Sắp Giảm Giá</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li><a href="hoitro.html">Hỗ Trợ</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </nav>
+                                <!--/ End Main Menu -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ End Header Inner -->
+    </header>
+    <!--/ End Header -->
+    <!-- Slider Area -->
+    <section class="hero-slider text-right">
+        <!-- Single Slider -->
+        <div class="single-slider">
+            <div class="container">
+                <div class="row no-gutters">
+                    <div class="col-12">
+                        <div class="text-inner">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="hero-text">
+                                        @*<div class="button">
+                                            <a href="#" class="btn">Xem Thêm</a>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ End Single Slider -->
+    </section>
+    <!--/ End Slider Area -->
+    <!-- Start Product Area -->
+    <div class="product-area section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="shop-services section home">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Service -->
+                    <div class="single-service">
+                        <i class="ti-rocket"></i>
+                        <h4>Free shiping</h4>
+                        <p>Với đơn hàng trên 200.000VNĐ</p>
+                    </div>
+                    <!-- End Single Service -->
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Service -->
+                    <div class="single-service">
+                        <i class="ti-reload"></i>
+                        <h4>Miễn Phí Đổi Trả</h4>
+                        <p>Đổi hàng khi bị lỗi</p>
+                    </div>
+                    <!-- End Single Service -->
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Service -->
+                    <div class="single-service">
+                        <i class="ti-lock"></i>
+                        <h4>Bảo Mật</h4>
+                        <p>Bảo mật giao hàng</p>
+                    </div>
+                    <!-- End Single Service -->
+                </div>
+                <div class="col-lg-3 col-md-6 col-12">
+                    <!-- Start Single Service -->
+                    <div class="single-service">
+                        <i class="ti-tag"></i>
+                        <h4>Siêu Tiết Kiệm</h4>
+                        <p>Mua hàng giá rẻ</p>
+                    </div>
+                    <!-- End Single Service -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="shop-newsletter section" style="background: #ffeee6; padding: 40px 0;">
+        <div class="container">
+            <div class="inner-top">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 col-md-12 col-12">
+                        <div class="newsletter-content" style="text-align: left;">
+                            <h2 style="font-size: 28px; color: #333; margin-bottom: 15px;">Đăng ký nhận thông báo</h2>
+                            <p style="font-size: 16px; color: #666; margin-bottom: 0;">Hãy cho chúng tôi biết những cuốn sách bạn yêu thích.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-12">
+                        <div class="newsletter-form" style="text-align: right;">
+                            <a href="@Url.Action("Dangky","Nguoidung")" class="btn" style="
+                            display: inline-block;
+                            padding: 12px 30px;
+                            background: #573ba3;
+                            color: #fff;
+                            text-transform: uppercase;
+                            font-weight: 600;
+                            border-radius: 4px;
+                            transition: all 0.3s ease;
+                            text-decoration: none;
+                            min-width: 160px;
+                            text-align: center;">
+                                ĐĂNG KÝ NGAY
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Shop Newsletter -->
+    <!-- Start Footer Area -->
+    <footer class="footer">
+        <!-- Footer Top -->
+        <div class="footer-top section" style="padding: 40px 0;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-5 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer about">
+                            <div class="logo" style="max-width: 250px; margin-bottom: 15px;">
+                                <a href="@Url.Action("Index","BookStore")">
+                                    <img src="~/images/bookshoplo.png" alt="#" style="max-width: 100%; height: auto;">
+                                </a>
+                            </div>
+                            <p class="text" style="font-size: 14px; margin-bottom: 10px;">Website bán sách trực tuyến của BOOK SHOP, hỗ trợ 24/7 cùng nhiều ưu đẫi hấp dẫn. Luôn luôn cập nhật mới nhiều loại sách.</p>
+                            <p class="text" style="font-size: 14px;">Cần hỗ trợ liên hệ với chúng tôi: <span><a href="tel:654089">+065 4089</a></span></p>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer links">
+                            <h4 style="font-size: 16px; margin-bottom: 15px;">Information</h4>
+                            <ul style="font-size: 14px;">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Faq</a></li>
+                                <li><a href="#">Terms & Conditions</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer links">
+                            <h4 style="font-size: 16px; margin-bottom: 15px;">Customer Service</h4>
+                            <ul style="font-size: 14px;">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <!-- Single Widget -->
+                        <div class="single-footer social">
+                            <h4 style="font-size: 16px; margin-bottom: 15px;">Thông tin</h4>
+                            <!-- Single Widget -->
+                            <div class="contact">
+                                <ul style="font-size: 14px;">
+                                    <li>24/7 Sư Vạn Hạnh, Quận 10, Tp. Hồ Chí Minh</li>
+                                    <li>Nhà Quản lý: Book Shop</li>
+                                    <li>info@bookshop.com</li>
+                                    <li>+065 4089</li>
+                                </ul>
+                            </div>
+                            <!-- End Single Widget -->
+                            <ul class="social-icons" style="margin-top: 15px;">
+                                <li><a href="https://www.facebook.com/bookshop.org/?locale=vi_VN"><i class="ti-facebook"></i></a></li>
+                                <li><a href="#"><i class="ti-twitter"></i></a></li>
+                                <li><a href="#"><i class="ti-flickr"></i></a></li>
+                                <li><a href="#"><i class="ti-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- End Single Widget -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Footer Top -->
+        <div class="copyright" style="padding: 15px 0;">
+            <div class="container">
+                <div class="inner">
+                    <div class="row">
+                        <div class="col-lg-6 col-12">
+                            <div class="left">
+                                <p style="font-size: 14px; margin: 0;">Copyright © 2025 By <a href="https://www.facebook.com/bookshop.org/?locale=vi_VN" target="_blank">BOOK SHOP</a>  -  065 4089</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <div class="right">
+                                <img src="images/payments.png" alt="#" style="max-height: 30px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- /End Footer Area -->
+    <!-- Jquery -->
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/jquery-migrate-3.0.0.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <!-- Popper JS -->
+    <script src="~/Scripts/popper.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- Color JS -->
+    <script src="~/Scripts/colors.js"></script>
+    <!-- Slicknav JS -->
+    <script src="~/Scripts/slicknav.min.js"></script>
+    <!-- Owl Carousel JS -->
+    <script src="~/Scripts/owl-carousel.js"></script>x
+    <!-- Magnific Popup JS -->
+    <script src="~/Scripts/magnific-popup.js"></script>
+    <!-- Waypoints JS -->
+    <script src="~/Scripts/waypoints.min.js"></script>
+    <!-- Countdown JS -->
+    <script src="~/Scripts/finalcountdown.min.js"></script>
+    <!-- Nice Select JS -->
+    <script src="~/Scripts/nicesellect.js"></script>
+    <!-- Flex Slider JS -->
+    <script src="~/Scripts/flex-slider.js"></script>
+    <!-- ScrollUp JS -->
+    <script src="~/Scripts/scrollup.js"></script>
+    <!-- Onepage Nav JS -->
+    <script src="~/Scripts/onepage-nav.min.js"></script>
+    <script src="~/Scripts/easing.js"></script>
+    <script src="~/Scripts/active.js"></script>
+</body>
+</html>

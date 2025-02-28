@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Book Shop</title>
+    <link rel="icon" type="image/png" href="~/images/bookicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+            .sidebar.collapsed .nav-text {
+                display: none;
+            }
+
+        .nav-item {
+            transition: all 0.2s ease;
+        }
+
+            .nav-item:hover {
+                background-color: #4f46e5;
+                color: white;
+            }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar bg-white text-slate-600 w-64 transition-all duration-300 fixed h-full shadow-sm">
+            <div class="flex items-center space-x-3 p-4 border-b border-slate-100">
+                <img src="~/images/bookicon.png" alt="Logo" class="w-8 h-8">
+                <span class="text-lg font-semibold text-slate-800">BOOK SHOP</span>
+            </div>
+
+            <ul class="py-4">
+                <li class="nav-item mx-2">
+                    <a href="/Admin/Index" class="flex items-center p-3 rounded-lg">
+                        <i class="fa fa-home w-6"></i>
+                        <span class="nav-text ml-3">Trang Chủ</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a href="/Admin/Sach" class="flex items-center p-3 rounded-lg">
+                        <i class="fa fa-book w-6"></i>
+                        <span class="nav-text ml-3">Quản Lý Sách</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a href="/Admin/DonHang" class="flex items-center p-3 rounded-lg">
+                        <i class="fa fa-shopping-cart w-6"></i>
+                        <span class="nav-text ml-3">Đơn Hàng</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a href="/Admin/Loai" class="flex items-center p-3 rounded-lg">
+                        <i class="fa fa-tags w-6"></i>
+                        <span class="nav-text ml-3">Loại Sách</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a href="/Admin/NXB" class="flex items-center p-3 rounded-lg">
+                        <i class="fa fa-building w-6"></i>
+                        <span class="nav-text ml-3">Nhà Xuất Bản</span>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a href="/Admin/Logout" class="flex items-center p-3 rounded-lg text-red-600 hover:bg-red-500 hover:text-white">
+                        <i class="fa fa-sign-out-alt w-6"></i>
+                        <span class="nav-text ml-3">Đăng Xuất</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="absolute bottom-0 w-full p-4 border-t border-slate-100">
+                <button id="toggleSidebar" class="w-full p-2 flex items-center justify-center text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 ml-64 transition-all duration-300" id="mainContent">
+            <!-- Top Navigation -->
+            <nav class="bg-white shadow-sm">
+                <div class="px-6 py-3 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <button class="text-slate-600 hover:text-slate-800">
+                            <i class="fa fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-slate-600">Xin chào, Admin</span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Content Area -->
+            <div class="p-6">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("toggleSidebar").addEventListener("click", function () {
+            document.querySelector(".sidebar").classList.toggle("collapsed");
+            document.getElementById("mainContent").classList.toggle("ml-64");
+            document.getElementById("mainContent").classList.toggle("ml-20");
+        });
+    </script>
+</body>
+</html>

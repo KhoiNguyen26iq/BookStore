@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = @Model.Tensach;
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Book Image Column -->
+        <div class="col-md-5">
+            <div class="book-image-container p-4 bg-white rounded shadow-sm">
+                <img src="~/images/anhsp/@Model.Anhbia"
+                     alt="@Model.Tensach"
+                     class="img-fluid hover-img">
+            </div>
+        </div>
+
+        <!-- Book Details Column -->
+        <div class="col-md-7">
+            <div class="book-details p-4 bg-white rounded shadow-sm">
+                <h2 class="book-title mb-4">@Model.Tensach</h2>
+
+                <div class="book-info mb-4">
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Loại sách:</div>
+                        <div class="col-md-8">@Model.Loai.TenLoai</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Nhà Xuất Bản:</div>
+                        <div class="col-md-8">@Model.NHAXUATBAN.TenNXB</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-muted">Số lượng:</div>
+                        <div class="col-md-8">
+                            @if (@Model.Soluongton > 0)
+                            {
+                                <span class="stock-status in-stock">Còn hàng</span>
+                            }
+                            else
+                            {
+                                <span class="stock-status out-of-stock">Hết hàng</span>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-muted">Giá bán:</div>
+                        <div class="col-md-8 text-danger fw-bold">
+                            @String.Format("{0:#,##0}", @Model.Giaban) VNĐ
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container py-5">
+                    <div class="book-description mb-4">
+                        <h5 class="mb-3">Mô tả:</h5>
+                        <div class="description-container">
+                            <p class="text-muted description-text" id="bookDescription">@Model.Mota</p>
+                            <button class="see-more-btn" onclick="toggleDescription()">Xem thêm</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="purchase-section">
+                    @if (@Model.Soluongton > 0)
+                    {
+                        <a href="@Url.Action("ThemGiohang","GioHang", new {@iMasach=@Model.Masach,@strURL=Request.Url.ToString()})"
+                           class="btn btn-primary btn-lg px-5 text-white">
+                            Đặt Mua
+                        </a>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger btn-lg px-5" disabled>
+                            Hết Hàng!
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-primary {
+        color: white;
+    }
+    .book-image-container {
+        transition: transform 0.3s ease;
+    }
+
+        .book-image-container:hover {
+            transform: scale(1.02);
+        }
+
+    .book-title {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+
+    .book-info {
+        font-size: 1.1rem;
+    }
+
+    .book-description {
+        line-height: 1.6;
+    }
+
+    .btn-lg {
+        border-radius: 30px;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+    }
+
+    .stock-status {
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 4px;
+    }
+
+    .in-stock {
+        color: #28a745;
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    .out-of-stock {
+        color: #dc3545;
+        background-color: rgba(220, 53, 69, 0.1);
+    }
+
+    .description-container {
+        position: relative;
+    }
+
+    .description-text {
+        margin: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+        .description-text.collapsed {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    .see-more-btn {
+        background: none;
+        border: none;
+        color: #007bff;
+        padding: 0;
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+        .see-more-btn:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const description = document.getElementById('bookDescription');
+        description.classList.add('collapsed');
+    });
+
+    function toggleDescription() {
+        const description = document.getElementById('bookDescription');
+        const button = document.querySelector('.see-more-btn');
+
+        if (description.classList.contains('collapsed')) {
+            description.classList.remove('collapsed');
+            button.textContent = 'Thu gọn';
+        } else {
+            description.classList.add('collapsed');
+            button.textContent = 'Xem thêm';
+        }
+    }
+</script>

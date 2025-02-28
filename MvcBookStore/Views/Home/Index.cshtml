@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "Book Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOK SHOP</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Khám phá những cuốn sách đa dạng và mới lạ</h1>
+                <a href="@Url.Action("Index","BookStore")" class="explore-button">
+                    Khám phá sách →
+                </a>
+            </div>
+            <div class="books-display">
+                <div class="book-card">
+                    <img src="~/images/Intro1.png" alt="Frieren Book 1">
+                </div>
+                <div class="book-card">
+                    <img src="~/images/Intro2.png" alt="Frieren Book 2">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<style>
+    header {
+        display: none !important;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: #fff;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem;
+        min-height: calc(100vh - 60px); /* Trừ đi chiều cao của footer */
+    }
+
+    .hero-section {
+        display: grid;
+        grid-template-columns: 45% 55%;
+        align-items: center;
+        padding: 4rem 2rem;
+        gap: 2rem;
+    }
+
+    .hero-content {
+        padding-right: 2rem;
+    }
+
+    .hero-title {
+        font-size: 4.5rem;
+        line-height: 1.2;
+        font-weight: 500;
+        color: #000;
+        margin-bottom: 3rem;
+        letter-spacing: -0.02em;
+    }
+
+    .explore-button {
+        display: inline-flex;
+        align-items: center;
+        background-color: #000;
+        color: #fff;
+        padding: 1rem 2rem;
+        border-radius: 2rem;
+        text-decoration: none;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+        .explore-button:hover {
+            background-color: #333;
+        }
+
+    .books-display {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: flex-end;
+        align-items: flex-start;
+    }
+
+    .book-card {
+        width: 280px;
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .book-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .book-card:last-child {
+            margin-top: 3rem;
+        }
+
+    .footer {
+        text-align: center;
+        padding: 1rem;
+        color: #666;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+    }
+
+    @@media (max-width: 1200px) {
+        .hero-section {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+
+        .hero-content {
+            padding-right: 0;
+        }
+
+        .books-display {
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .book-card {
+            width: 240px;
+        }
+
+            .book-card:last-child {
+                margin-top: 2rem;
+            }
+    }
+
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 3rem;
+        }
+
+        .book-card {
+            width: 200px;
+        }
+    }
+</style>
