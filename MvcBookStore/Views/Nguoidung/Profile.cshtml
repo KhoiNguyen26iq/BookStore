@@ -1,0 +1,68 @@
+﻿@model MvcBookStore.Models.KHACHHANG
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+
+@if (TempData["Thongbao"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Thongbao"]
+    </div>
+}
+<div class="app__container">
+    <div class="grid">
+        <div class="grid__row app__content">
+            <div class="grid__column-10">
+                <div class="profile">
+                    <div class="profile__heading">
+                        <h1 class="profile__heading-title">Hồ Sơ Của Tôi</h1>
+                        <div class="profile__heading-mota">Quản lí thông tin hồ sơ để bảo mật tài khoản</div>
+                    </div>
+                    <hr>
+                    <div class="profile_body">
+                        <div class="grid__row">
+                            <div class="grid__column-8">
+                                <table class="profile__info">
+                                    <tr class="profile__info-item">
+                                        <td class="profile__info-item--label">Tài Khoản</td>
+                                        <td> @Model.Taikhoan</td>
+                                    </tr>
+                                    <tr class="profile__info-item">
+                                        <td class="profile__info-item--label">Email</td>
+                                        <td> @Model.Email</td>
+                                    </tr>
+                                    <tr class="profile__info-item">
+                                        <td class="profile__info-item--label">Họ Tên</td>
+                                        <td>@Model.HoTen</td>
+                                    </tr>
+                                    <tr class="profile__info-item">
+                                        <td class="profile__info-item--label">Mật khẩu</td>
+                                        <td>@Model.Matkhau</td>
+                                    </tr>
+                                    <tr class="profile__info-item">
+                                        <td class="profile__info-item--label">Số điện thoại</td>
+                                        <td>@Model.DienthoaiKH</td>
+                                    </tr>
+                                    <tr class="profile__info-item">
+                                        <td class="profile__info-item--label">Địa chỉ</td>
+                                        <td>@Model.DiachiKH</td>
+                                    </tr>
+                                    <tr class="profile__info-item">
+                                        <td class="profile__info-item--label">Ngày sinh</td>
+                                        <td>@(Model.Ngaysinh?.ToString("dd-MM-yyyy"))</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                            <div class="mt-2">
+                                @Html.ActionLink("Sửa hồ sơ", "EditProfile", "Nguoidung", new { @class = "btn btn--primary" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

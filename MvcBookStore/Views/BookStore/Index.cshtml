@@ -11,49 +11,68 @@
     ViewBag.Title = "BOOK SHOP";
     Layout = "~/Views/Shared/_LayoutUser.cshtml";
 }
-<h3 class="text-center">Sách mới cập nhật</h3>
-<div class="row">
-    @foreach (var sach in Model)
+<h3 class="text-center">
+    @if (!string.IsNullOrEmpty(ViewBag.CurrentFilter))
     {
-        <div class="col-xl-3 col-lg-4 col-md-4 col-12">
-            <div class="single-product">
-                <div class="product-img">
-                    <a href="@Url.Action("Details", "BookStore", new {id=sach.Masach})">
-                        <img class="default-img" src="~/images/anhsp/@sach.Anhbia" alt="#">
-                        <img class="hover-img" src="~/images/anhsp/@sach.Anhbia" alt="@sach.Tensach">
-                    </a>
-                    <div class="button-head">
-                        <div class="product-action">
-                            <a href="@Url.Action("Details", "BookStore", new {id=sach.Masach})" title="Thông tin chi tiết"><i class="ti-eye"></i><span>Xem nhanh</span></a>
-                            <a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Thêm vào yêu thích</span></a>
+        <text>Kết quả tìm kiếm cho: "@ViewBag.CurrentFilter"</text>
+    }
+    else
+    {
+        <text>Sách mới cập nhật</text>
+    }
+</h3>
+
+<div class="row">
+    @if (Model.Any())
+    {
+        foreach (var sach in Model)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-4 col-12">
+                <div class="single-product">
+                    <div class="product-img">
+                        <a href="@Url.Action("Details", "BookStore", new { id = sach.Masach })">
+                            <img class="default-img" src="~/images/anhsp/@sach.Anhbia" alt="@sach.Tensach">
+                            <img class="hover-img" src="~/images/anhsp/@sach.Anhbia" alt="@sach.Tensach">
+                        </a>
+                        <div class="button-head">
+                            <div class="product-action">
+                                <a href="@Url.Action("Details", "BookStore", new { id = sach.Masach })" title="Thông tin chi tiết">
+                                    <i class="ti-eye"></i><span>Xem nhanh</span>
+                                </a>
+                                <a title="Wishlist" href="#"><i class="ti-heart"></i><span>Thêm vào yêu thích</span></a>
+                            </div>
+                            <div class="product-action-2">
+                                @if (sach.Soluongton > 0)
+                                {
+                                    <a href="@Url.Action("ThemGiohang", "GioHang", new { iMasach = sach.Masach, strURL = Request.Url.ToString() })">Thêm vào giỏ</a>
+                                }
+                            </div>
                         </div>
-                        <div class="product-action-2">
-                            @if (@sach.Soluongton != 0 && @sach.Soluongton != null)
+                    </div>
+                    <div class="product-content text-center">
+                        <h3><a href="@Url.Action("Details", "BookStore", new { id = sach.Masach })">@sach.Tensach</a></h3>
+                        <div class="product-price">
+                            @if (sach.Soluongton > 0)
                             {
-                                <a href="@Url.Action("ThemGiohang","GioHang", new {@iMasach=@sach.Masach,@strURL=Request.Url.ToString()})">Thêm vào giỏ</a>
+                                <span>@String.Format("{0:#,##0}", sach.Giaban) VNĐ</span>
+                            }
+                            else
+                            {
+                                <span>Hết hàng</span>
                             }
                         </div>
                     </div>
                 </div>
-                <div class="product-content text-center">
-                    <h3><a href="@Url.Action("Details", "BookStore", new {id=sach.Masach})">@sach.Tensach</a></h3>
-                    <div class="product-price">
-                        @if (@sach.Soluongton != 0 && @sach.Soluongton != null)
-                        {
-                            <span>@String.Format("{0:#,##0}", @sach.Giaban)</span><span> VNĐ</span>
-                        }
-                        else
-                        {
-                            <span>Hết Hàng</span>
-                        }
-                    </div>
-                </div>
             </div>
-        </div>
+        }
+    }
+    else
+    {
+        <p class="text-center">Không tìm thấy sách nào phù hợp.</p>
     }
 </div>
-@*Tao lien ket giua cac trang*@
+
 <div class="Trang">
-    Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+    Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, searchString = ViewBag.SearchTerm }))
 </div>

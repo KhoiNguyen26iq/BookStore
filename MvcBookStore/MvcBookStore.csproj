@@ -250,6 +250,8 @@
     <Content Include="Views\Admin\Loai.cshtml" />
     <Content Include="Views\Admin\NXB.cshtml" />
     <Content Include="Views\Admin\Logout.cshtml" />
+    <Content Include="Views\Nguoidung\Profile.cshtml" />
+    <Content Include="Views\Nguoidung\EditProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

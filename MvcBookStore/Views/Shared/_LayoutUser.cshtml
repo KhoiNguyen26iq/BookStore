@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -112,9 +114,9 @@
                                     <option>Tên Sách</option>
                                     <option>Thể Loại</option>
                                 </select>
-                                <form>
-                                    <input name="search" placeholder="Nhập thông tin tìm kiếm....." type="search">
-                                    <button class="btnn"><i class="ti-search"></i></button>
+                                <form action="@Url.Action("Search", "BookStore")" method="get">
+                                    <input name="searchString" placeholder="Nhập thông tin tìm kiếm....." type="search" value="@ViewBag.CurrentFilter">
+                                    <button type="submit" class="btnn"><i class="ti-search"></i></button>
                                 </form>
                             </div>
                         </div>
@@ -125,9 +127,20 @@
                             <div class="sinlge-bar">
                                 <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                             </div>
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
-                            </div>
+                            @*<div class="sinlge-bar">
+                            <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+                            </div>*@
+
+                            <div class="sinlge-bar"> 
+                                @if (Session["Taikhoan"] == null || Session["Taikhoan"].ToString() == "")
+                                {
+                                    <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+                                }
+                                else
+                                {
+                                        <a href="@Url.Action("Profile","Nguoidung")" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+                                }
+                            </div class="sinlge-bar">
                             <div class="sinlge-bar shopping">
                                 <a href="@Url.Action("Giohang","Giohang")" class="single-icon">
                                     <i class="ti-bag"></i>@if (ViewBag.Tongsoluong != null)
@@ -194,8 +207,8 @@
                                 <div class="col-12">
                                     <div class="hero-text">
                                         @*<div class="button">
-                                            <a href="#" class="btn">Xem Thêm</a>
-                                        </div>*@
+                                                <a href="#" class="btn">Xem Thêm</a>
+                                            </div>*@
                                     </div>
                                 </div>
                             </div>

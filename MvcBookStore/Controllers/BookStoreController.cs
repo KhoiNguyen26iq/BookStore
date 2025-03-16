@@ -8,6 +8,7 @@ using MvcBookStore.Controllers;
 //list
 using PagedList;
 using PagedList.Mvc;
+using Sitecore.FakeDb;
 namespace MvcBookStore.Controllers
 {
     public class BookStoreController : Controller
@@ -75,6 +76,21 @@ namespace MvcBookStore.Controllers
         {
             Session["Taikhoan"] = null;
             return View();
+        }
+        public ActionResult Search(string searchString, int? page)
+        {
+            var books = data.SACHes.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(s => s.Tensach.Contains(searchString));
+            }
+
+            int pageSize = 8; // Số sách trên mỗi trang
+            int pageNumber = (page ?? 1);
+
+            ViewBag.CurrentFilter = searchString;
+            return View("Index",books.OrderBy(s => s.Masach).ToPagedList(pageNumber, pageSize));
         }
     }
 }

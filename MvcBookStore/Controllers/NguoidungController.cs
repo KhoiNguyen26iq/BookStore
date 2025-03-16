@@ -11,6 +11,7 @@ namespace MvcBookStore.Controllers
 {
     public class NguoidungController : Controller
     {
+        private dbQLBansachDataContext _db = new dbQLBansachDataContext();
         // GET: Nguoidung
         public ActionResult Index()
         {
@@ -24,7 +25,7 @@ namespace MvcBookStore.Controllers
 
         //POST: Ham Dangky(post) nhan du lieu tu trang Dangky và thuc hien viec thuc hien tao moi du lieu
         [HttpPost]
-        public ActionResult Dangky(FormCollection collection,KHACHHANG kh)
+        public ActionResult Dangky(FormCollection collection, KHACHHANG kh)
         {
             //Gan cac gia tri nguoi dung nhap nhap du lieu cho cac bien
             var hoten = collection["HotenKH"];
@@ -39,7 +40,7 @@ namespace MvcBookStore.Controllers
             {
                 ViewData["Loi1"] = "Họ tên khách hàng không được để trống!";
             }
-            else if(String.IsNullOrEmpty(tendn))
+            else if (String.IsNullOrEmpty(tendn))
             {
                 ViewData["Loi2"] = "Tên đăng nhập không thể để trống!";
             }
@@ -98,7 +99,7 @@ namespace MvcBookStore.Controllers
             if (String.IsNullOrEmpty(tendn))
             {
                 ViewData["Loi1"] = "Chưa nhập tên đăng nhập!";
-            }   
+            }
             else if (String.IsNullOrEmpty(matkhau))
             {
                 ViewData["Loi2"] = "Chưa nhập mật khẩu!";
@@ -120,7 +121,6 @@ namespace MvcBookStore.Controllers
             }
             return View();
         }
-        dbQLBansachDataContext db = new dbQLBansachDataContext();
         public ActionResult DonHang(int? page)
         {
             if (Session["TDN"] == null)
@@ -130,7 +130,84 @@ namespace MvcBookStore.Controllers
             int pageNumber = (page ?? 1);
             int pageSize = 10;
             //return View(db.SACHes.ToList());
-            return View(db.DONDATHANGs.ToList().OrderBy(n => n.MaDonHang).ToPagedList(pageNumber, pageSize));
+            return View(_db.DONDATHANGs.ToList().OrderBy(n => n.MaDonHang).ToPagedList(pageNumber, pageSize));
         }
+        [HttpGet]
+        public ActionResult Profile()
+        {
+            if (Session["Taikhoan"] == null)
+            {
+                return RedirectToAction("Dangnhap");
+            }
+
+            var khachHang = Session["Taikhoan"] as KHACHHANG;
+            if (khachHang == null)
+            {
+                return RedirectToAction("Dangnhap");
+            }
+
+            var userInfo = _db.KHACHHANGs.FirstOrDefault(kh => kh.MaKH == khachHang.MaKH);
+            if (userInfo == null)
+            {
+                ViewBag.Thongbao = "Không tìm thấy thông tin người dùng.";
+                return View();
+            }
+
+            return View(userInfo);
+        }
+        [HttpGet]
+        public ActionResult EditProfile()
+        {
+            if (Session["Taikhoan"] == null)
+            {
+                return RedirectToAction("Dangnhap");
+            }
+
+            var khachHang = Session["Taikhoan"] as KHACHHANG;
+            if (khachHang == null)
+            {
+                return RedirectToAction("Dangnhap");
+            }
+
+            var userInfo = _db.KHACHHANGs.FirstOrDefault(kh => kh.MaKH == khachHang.MaKH);
+            if (userInfo == null)
+            {
+                ViewBag.Thongbao = "Không tìm thấy thông tin người dùng.";
+                return View();
+            }
+
+            return View(userInfo);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(KHACHHANG kh)
+        {
+            if (Session["Taikhoan"] == null)
+            {
+                return RedirectToAction("Dangnhap");
+            }
+
+            var khachHang = Session["Taikhoan"] as KHACHHANG;
+            var userInfo = _db.KHACHHANGs.FirstOrDefault(k => k.MaKH == khachHang.MaKH);
+            if (userInfo != null)
+            {
+                userInfo.HoTen = kh.HoTen;
+                userInfo.Email = kh.Email;
+                userInfo.DiachiKH = kh.DiachiKH;
+                userInfo.DienthoaiKH = kh.DienthoaiKH;
+                userInfo.Ngaysinh = kh.Ngaysinh;
+
+                _db.SubmitChanges();
+
+                TempData["Thongbao"] = "Cập nhật thông tin thành công!";
+                return RedirectToAction("Profile");
+            }
+            else
+            {
+                ViewBag.Thongbao = "Không tìm thấy thông tin người dùng.";
+                return View(kh);
+            }
+        }
+
     }
 }
