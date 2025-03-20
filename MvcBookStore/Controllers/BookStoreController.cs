@@ -90,7 +90,7 @@ namespace MvcBookStore.Controllers
             int pageNumber = (page ?? 1);
 
             ViewBag.CurrentFilter = searchString;
-            return View("Index",books.OrderBy(s => s.Masach).ToPagedList(pageNumber, pageSize));
+            return View("Index", books.OrderBy(s => s.Masach).ToPagedList(pageNumber, pageSize));
         }
     }
 }
