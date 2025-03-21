@@ -128,19 +128,19 @@
                                 <a href="#" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                             </div>
                             @*<div class="sinlge-bar">
-                            <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
-                            </div>*@
+                                <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+                                </div>*@
 
-                            <div class="sinlge-bar"> 
+                            <div class="sinlge-bar">
                                 @if (Session["Taikhoan"] == null || Session["Taikhoan"].ToString() == "")
                                 {
                                     <a href="#" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
                                 }
                                 else
                                 {
-                                        <a href="@Url.Action("Profile","Nguoidung")" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
+                                    <a href="@Url.Action("Profile","Nguoidung")" class="single-icon"><i class="fa fa-user-circle-o" aria-hidden="true"></i></a>
                                 }
-                            </div class="sinlge-bar">
+                            </div>
                             <div class="sinlge-bar shopping">
                                 <a href="@Url.Action("Giohang","Giohang")" class="single-icon">
                                     <i class="ti-bag"></i>@if (ViewBag.Tongsoluong != null)
@@ -313,7 +313,7 @@
         <div class="footer-top section" style="padding: 40px 0;">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-5 col-md-6 col-12">
+                    <div class="col-lg-3 col-md-6 col-12">
                         <!-- Single Widget -->
                         <div class="single-footer about">
                             <div class="logo" style="max-width: 250px; margin-bottom: 15px;">
@@ -354,7 +354,7 @@
                         </div>
                         <!-- End Single Widget -->
                     </div>
-                    <div class="col-lg-3 col-md-6 col-12">
+                    <div class="col-lg-2 col-md-6 col-12">
                         <!-- Single Widget -->
                         <div class="single-footer social">
                             <h4 style="font-size: 16px; margin-bottom: 15px;">Thông tin</h4>
@@ -376,6 +376,11 @@
                             </ul>
                         </div>
                         <!-- End Single Widget -->
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="col-md-12 mb-3">
+                            <div class="rounded-2" id="map" style="height: 400px; width: 400px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -431,5 +436,25 @@
     <script src="~/Scripts/onepage-nav.min.js"></script>
     <script src="~/Scripts/easing.js"></script>
     <script src="~/Scripts/active.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJKlSX0lQKufoBwYpbBKUKir5h45amcFM&callback=initMap"></script>
+    <script>
+        function initMap() {
+            // Tọa độ để trung tâm bản đồ
+            var myLatLng = { lat: 10.776101071657394, lng: 106.66735983035177 };
+
+            // Tạo bản đồ và đặt tọa độ
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 19,
+                center: myLatLng
+            });
+
+            // Tạo một marker và đặt nó lên bản đồ
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Huflit'
+            });
+        }
+    </script>
 </body>
 </html>
