@@ -234,12 +234,46 @@ namespace MvcBookStore.Controllers
         public ActionResult Chitietdonhang(int id)
         {
             //Lay doi tuong sach theo ma
-            CHITIETDONTHANG dh = (CHITIETDONTHANG)db.CHITIETDONTHANGs.ToList().OrderBy(n => n.MaDonHang==id);
+            CHITIETDONTHANG dh = db.CHITIETDONTHANGs.FirstOrDefault(n => n.MaDonHang == id);
             ViewBag.MaDonHang = dh.MaDonHang;
             if (dh == null)
             {
                 Response.StatusCode = 404;
                 return null;
+            }
+            return View(dh);
+        }
+        [HttpGet]
+        public ActionResult Suadonhang(int id)
+        {
+            DONDATHANG dh = db.DONDATHANGs.SingleOrDefault(n => n.MaDonHang == id);
+            if (dh == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(dh);
+        }
+
+        [HttpPost]
+        public ActionResult Suadonhang(DONDATHANG dh)
+        {
+            if (Session["Taikhoanadmin"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            if (ModelState.IsValid)
+            {
+                DONDATHANG orderUpdate = db.DONDATHANGs.SingleOrDefault(n => n.MaDonHang == dh.MaDonHang);
+                if (orderUpdate != null)
+                {
+                    orderUpdate.Ngaydat = dh.Ngaydat;
+                    orderUpdate.Ngaygiao = dh.Ngaygiao;
+                    orderUpdate.Tinhtranggiaohang = dh.Tinhtranggiaohang;
+                    orderUpdate.Dathanhtoan = dh.Dathanhtoan;
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("DonHang");
             }
             return View(dh);
         }
@@ -269,6 +303,91 @@ namespace MvcBookStore.Controllers
             //return View(db.SACHes.ToList());
             return View(db.Loais.ToList().OrderBy(n => n.MaLoai).ToPagedList(pageNumber, pageSize));
         }
+        [HttpGet]
+        public ActionResult ThemmoiLoai()
+        {
+            if (Session["Taikhoanadmin"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ThemmoiLoai(Loai loai)
+        {
+            if (Session["Taikhoanadmin"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            if (ModelState.IsValid)
+            {
+                db.Loais.InsertOnSubmit(loai);
+                db.SubmitChanges();
+                return RedirectToAction("Loai");
+            }
+            return View(loai);
+        }
+
+        [HttpGet]
+        public ActionResult SuaLoai(int id)
+        {
+            Loai loai = db.Loais.SingleOrDefault(n => n.MaLoai == id);
+            if (loai == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(loai);
+        }
+
+        [HttpPost]
+        public ActionResult SuaLoai(Loai loai)
+        {
+            if (Session["Taikhoanadmin"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            if (ModelState.IsValid)
+            {
+                Loai loaiUpdate = db.Loais.SingleOrDefault(n => n.MaLoai == loai.MaLoai);
+                if (loaiUpdate != null)
+                {
+                    loaiUpdate.TenLoai = loai.TenLoai;
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("Loai");
+            }
+            return View(loai);
+        }
+
+        [HttpGet]
+        public ActionResult XoaLoai(int id)
+        {
+            Loai loai = db.Loais.SingleOrDefault(n => n.MaLoai == id);
+            if (loai == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(loai);
+        }
+
+        [HttpPost, ActionName("XoaLoai")]
+        public ActionResult XacNhanXoaLoai(int id)
+        {
+            Loai loai = db.Loais.SingleOrDefault(n => n.MaLoai == id);
+            if (loai == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            db.Loais.DeleteOnSubmit(loai);
+            db.SubmitChanges();
+            return RedirectToAction("Loai");
+        }
+
+
         //Phân loại sách
         public ActionResult NXB(int? page)
         {
@@ -280,6 +399,94 @@ namespace MvcBookStore.Controllers
             int pageSize = 10;
             //return View(db.SACHes.ToList());
             return View(db.NHAXUATBANs.ToList().OrderBy(n => n.MaNXB).ToPagedList(pageNumber, pageSize));
+        }
+        // Thêm mới nhà xuất bản
+        [HttpGet]
+        public ActionResult ThemmoiNXB()
+        {
+            if (Session["Taikhoanadmin"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ThemmoiNXB(NHAXUATBAN nxb)
+        {
+            if (Session["Taikhoanadmin"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            if (ModelState.IsValid)
+            {
+                db.NHAXUATBANs.InsertOnSubmit(nxb);
+                db.SubmitChanges();
+                return RedirectToAction("NXB");
+            }
+            return View(nxb);
+        }
+
+        // Sửa nhà xuất bản
+        [HttpGet]
+        public ActionResult SuaNXB(int id)
+        {
+            NHAXUATBAN nxb = db.NHAXUATBANs.SingleOrDefault(n => n.MaNXB == id);
+            if (nxb == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(nxb);
+        }
+
+        [HttpPost]
+        public ActionResult SuaNXB(NHAXUATBAN nxb)
+        {
+            if (Session["Taikhoanadmin"] == null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
+            if (ModelState.IsValid)
+            {
+                NHAXUATBAN nxbUpdate = db.NHAXUATBANs.SingleOrDefault(n => n.MaNXB == nxb.MaNXB);
+                if (nxbUpdate != null)
+                {
+                    nxbUpdate.TenNXB = nxb.TenNXB;
+                    nxbUpdate.Diachi = nxb.Diachi;
+                    nxbUpdate.DienThoai = nxb.DienThoai;
+                    db.SubmitChanges();
+                }
+                return RedirectToAction("NXB");
+            }
+            return View(nxb);
+        }
+
+        // Xóa nhà xuất bản
+        [HttpGet]
+        public ActionResult XoaNXB(int id)
+        {
+            NHAXUATBAN nxb = db.NHAXUATBANs.SingleOrDefault(n => n.MaNXB == id);
+            if (nxb == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(nxb);
+        }
+
+        [HttpPost, ActionName("XoaNXB")]
+        public ActionResult XacNhanXoaNXB(int id)
+        {
+            NHAXUATBAN nxb = db.NHAXUATBANs.SingleOrDefault(n => n.MaNXB == id);
+            if (nxb == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            db.NHAXUATBANs.DeleteOnSubmit(nxb);
+            db.SubmitChanges();
+            return RedirectToAction("NXB");
         }
 
         // GET: Admin/Logout 

@@ -1,9 +1,10 @@
-﻿@using PagedList.Mvc;
-@model MvcBookStore.Models.CHITIETDONTHANG
+﻿@model MvcBookStore.Models.DONDATHANG
+
 @{
-    ViewBag.Title = "Chi tiết đơn hàng";
+    ViewBag.Title = "Suadonhang";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
+
 <html>
 <head>
     <style>
@@ -141,35 +142,51 @@
 <body>
     <div class="container">
         <div class="page-header">
-            <h2 class="page-title">Chi tiết đơn hàng</h2>
+            <h2 class="page-title">Sửa đơn hàng</h2>
         </div>
 
-        <div class="details-container">
-            <div class="details-grid">
-                <div class="detail-label">Mã Đơn Hàng</div>
-                <div class="detail-value">@Html.DisplayFor(model => model.MaDonHang)</div>
+        @using (Html.BeginForm("SuaDonHang", "Admin", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.MaDonHang)
+            <div class="details-container">
+                <div class="details-grid">
+                    <div class="detail-label">Mã Đơn Hàng</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.MaDonHang)</div>
 
-                <div class="detail-label">Tên Sách</div>
-                <div class="detail-value">@Html.DisplayFor(model => model.SACH.Tensach)</div>
+                    <div class="detail-label">Khách Hàng</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.KHACHHANG.HoTen)</div>
 
-                <div class="detail-label">Số Lượng</div>
-                <div class="detail-value">@Html.DisplayFor(model => model.Soluong)</div>
+                    <div class="detail-label">Ngày Đặt</div>
+                    <div class="detail-value">@Html.DisplayFor(model => model.Ngaydat)</div>
 
-                <div class="detail-label">Giá Bán</div>
-                <div class="detail-value">
-                    <span class="price">@String.Format("{0:#,##0}", Model.SACH.Giaban) VNĐ</span>
+                    <div class="detail-label">Ngày Giao</div>
+                    <div class="detail-value">
+                        @Html.TextBoxFor(model => model.Ngaygiao, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                    </div>
+
+                    <div class="detail-label">Tình Trạng Thanh Toán</div>
+                    <div class="detail-value">
+                        @Html.DropDownListFor(model => model.Dathanhtoan, new SelectList(new[] {
+                            new { Value = "true", Text = "Đã thanh toán" },
+                            new { Value = "false", Text = "Chưa thanh toán" }
+                        }, "Value", "Text"), "Chọn trạng thái", new { @class = "form-control" })
+                    </div>
+
+                    <div class="detail-label">Tình Trạng Giao Hàng</div>
+                    <div class="detail-value">
+                        @Html.DropDownListFor(model => model.Tinhtranggiaohang, new SelectList(new[] {
+                            new { Value = "true", Text = "Đã giao" },
+                            new { Value = "false", Text = "Chưa giao" }
+                        }, "Value", "Text"), "Chọn trạng thái", new { @class = "form-control" })
+                    </div>
                 </div>
 
-                <div class="detail-label">Ảnh Bìa</div>
-                <div class="detail-value">
-                    <img src="@Url.Content("~/images/anhsp/" + Model.SACH.Anhbia)" class="book-cover" alt="Ảnh bìa sách" />
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                    @Html.ActionLink("← Quay lại", "DonHang", null, new { @class = "btn btn-back" })
                 </div>
             </div>
-
-            <div class="action-buttons">
-                @Html.ActionLink("← Quay lại", "DonHang", null, new { @class = "btn btn-back" })
-            </div>
-        </div>
+        }
     </div>
 </body>
 </html>

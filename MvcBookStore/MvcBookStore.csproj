@@ -252,6 +252,13 @@
     <Content Include="Views\Admin\Logout.cshtml" />
     <Content Include="Views\Nguoidung\Profile.cshtml" />
     <Content Include="Views\Nguoidung\EditProfile.cshtml" />
+    <Content Include="Views\Admin\Suadonhang.cshtml" />
+    <Content Include="Views\Admin\ThemmoiLoai.cshtml" />
+    <Content Include="Views\Admin\SuaLoai.cshtml" />
+    <Content Include="Views\Admin\XoaLoai.cshtml" />
+    <Content Include="Views\Admin\ThemmoiNXB.cshtml" />
+    <Content Include="Views\Admin\SuaNXB.cshtml" />
+    <Content Include="Views\Admin\XoaNXB.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
