@@ -1,0 +1,228 @@
+﻿@model MvcBookStore.Models.NHAXUATBAN
+
+@{
+    ViewBag.Title = "ThemmoiNXB";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<head>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --success: #059669;
+            --danger: #dc2626;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+            .page-title::before {
+                content: "📚";
+                font-size: 2rem;
+            }
+
+        .form-horizontal {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            padding-top: 0.5rem;
+        }
+
+        .form-control, textarea, input[type="date"], select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+            .form-control:focus, textarea:focus, input[type="date"]:focus, select:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border: 2px dashed var(--gray-300);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .file-upload:hover {
+                border-color: var(--primary);
+                background-color: var(--gray-50);
+            }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+            .btn-success:hover {
+                background-color: #047857;
+                transform: translateY(-1px);
+            }
+
+        .text-danger {
+            color: var(--danger);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            text-decoration: none;
+            margin-top: 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+            .back-link:hover {
+                color: var(--primary);
+            }
+
+            .back-link::before {
+                content: "←";
+            }
+
+        @@media (max-width: 768px) {
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">Thêm mới nhà xuất bản</h2>
+        </div>
+
+        @using (Html.BeginForm("ThemmoiNXB", "Admin", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                <span class="control-label">Tên nhà xuất bản:</span>
+                <div>
+                    @Html.EditorFor(model => model.TenNXB, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập tên nhà xuất bản" } })
+                    @Html.ValidationMessageFor(model => model.TenNXB, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span class="control-label">Địa chỉ:</span>
+                <div>
+                    @Html.EditorFor(model => model.Diachi, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập địa chỉ" } })
+                    @Html.ValidationMessageFor(model => model.Diachi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span class="control-label">Số điện thoại:</span>
+                <div>
+                    @Html.EditorFor(model => model.DienThoai, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nhập số điện thoại" } })
+                    @Html.ValidationMessageFor(model => model.DienThoai, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2">
+                    <input type="submit" value="Tạo mới nhà xuất bản" class="btn btn-success" />
+                </div>
+            </div>
+        }
+
+        <a href="@Url.Action("Index")" class="back-link">Quay về trang quản trị</a>
+    </div>
+</body>
+</html>
